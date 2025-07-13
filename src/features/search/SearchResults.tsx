@@ -5,27 +5,24 @@ import Spinner from '../../components/Spinner';
 
 import styles from './SearchResults.module.css';
 
-type SearchResultsProps = AppState;
-
-export class SearchResults extends Component<SearchResultsProps> {
+export class SearchResults extends Component<{ data: AppState }> {
   render(): ReactNode {
-    const { searchResults: results, isLoading, error } = this.props;
+    const { searchResults, isLoading, error } = this.props.data;
 
     if (isLoading) return <Spinner />;
     if (error) return <div className="error">{error}</div>;
-    if (!results) return <div>Enter a search term to find recipes</div>;
-
-    if (!results.length) return <div>No recipes found</div>;
 
     return (
       <div>
         <h3 className={styles.title}>Results</h3>
 
         <ul>
-          {results.map((item) => (
-            <Card key={item.id} name={item.name} cuisine={item.cuisine} />
+          {searchResults.map((character) => (
+            <Card key={character.name} character={character} />
           ))}
         </ul>
+
+        {!searchResults.length && <div>No characters found!</div>}
       </div>
     );
   }

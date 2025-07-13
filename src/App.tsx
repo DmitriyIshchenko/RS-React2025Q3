@@ -2,19 +2,19 @@ import { Component } from 'react';
 import { SearchForm } from './features/search/SearchForm';
 import { getSearchResults } from './api/getSearchResults';
 import { SearchResults } from './features/search/SearchResults';
-import type { Recipe } from './lib/types';
+import type { Character } from './lib/types';
 
 import styles from './App.module.css';
 
 export interface AppState {
-  searchResults: Recipe[] | null;
+  searchResults: Character[];
   isLoading: boolean;
   error: string | null;
 }
 
 class App extends Component<unknown, AppState> {
   state: AppState = {
-    searchResults: null,
+    searchResults: [],
     isLoading: false,
     error: null,
   };
@@ -37,11 +37,7 @@ class App extends Component<unknown, AppState> {
     return (
       <main className={styles.main}>
         <SearchForm onSearch={this.handleSearch} />
-        <SearchResults
-          searchResults={this.state.searchResults}
-          isLoading={this.state.isLoading}
-          error={this.state.error}
-        />
+        <SearchResults data={this.state} />
       </main>
     );
   }

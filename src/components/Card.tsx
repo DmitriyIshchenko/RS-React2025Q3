@@ -1,15 +1,15 @@
 import { Component } from 'react';
-import type { Recipe } from '../lib/types';
+import type { Character } from '../lib/types';
 
 import styles from './Card.module.css';
 
-export default class Card extends Component<Pick<Recipe, 'name' | 'cuisine'>> {
+export default class Card extends Component<{ character: Character }> {
   render() {
-    const { name, cuisine } = this.props;
+    const { name, gender } = this.props.character;
     return (
       <li className={styles.card}>
         <p className={styles.title}>{name}</p>
-        <p className={styles.info}>{cuisine}</p>
+        <p className={styles.info}>{gender}</p>
       </li>
     );
   }
