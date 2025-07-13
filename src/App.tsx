@@ -11,6 +11,7 @@ export interface AppState {
   searchResults: Character[];
   isLoading: boolean;
   error: string | null;
+  isErrorBoundaryFaked: boolean;
 }
 
 class App extends Component<unknown, AppState> {
@@ -18,6 +19,7 @@ class App extends Component<unknown, AppState> {
     searchResults: [],
     isLoading: false,
     error: null,
+    isErrorBoundaryFaked: false,
   };
 
   handleSearch = async (searchQuery: string) => {
@@ -39,11 +41,17 @@ class App extends Component<unknown, AppState> {
   };
 
   render() {
+    if (this.state.isErrorBoundaryFaked)
+      throw new Error('Fake error boundary has been triggered!');
+
     return (
       <main className={styles.main}>
         <Header />
         <SearchForm onSearch={this.handleSearch} />
         <SearchResults data={this.state} />
+        <button onClick={() => this.setState({ isErrorBoundaryFaked: true })}>
+          Trigger error boundary
+        </button>
       </main>
     );
   }

@@ -13,3 +13,7 @@ body {
 ul {
   list-style: none;
 }
+
+button {
+  padding: 1rem;
+}
