@@ -27,8 +27,12 @@ class App extends Component<unknown, AppState> {
       const data = await getSearchResults(searchQuery);
 
       this.setState({ searchResults: data });
-    } catch {
-      this.setState({ error: 'Unable to fetch result :( Please try again!' });
+    } catch (error) {
+      if (error instanceof Error) {
+        this.setState({
+          error: `Something went wrong: ${error.message}. Please try again!`,
+        });
+      }
     } finally {
       this.setState({ isLoading: false });
     }
