@@ -22,7 +22,7 @@ export class SearchForm extends Component<SearchFormProps, SearchFormState> {
   handleSearchQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
-    localStorage.setItem(SEARCH_QUERY, value);
+    localStorage.setItem(SEARCH_QUERY, value.trim());
     this.setState({
       searchQuery: value,
     });
@@ -31,6 +31,9 @@ export class SearchForm extends Component<SearchFormProps, SearchFormState> {
   handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    this.setState({
+      searchQuery: this.state.searchQuery.trim(),
+    });
     this.props.onSearch(this.state.searchQuery);
   };
 
