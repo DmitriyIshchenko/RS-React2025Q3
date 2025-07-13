@@ -1,5 +1,6 @@
 import { Component, type FormEvent } from 'react';
 import { SEARCH_QUERY } from '../../lib/constants';
+import styles from './SearchForm.module.css';
 
 interface SearchFormProps {
   onSearch: (searchQuery: string) => void;
@@ -35,14 +36,18 @@ export class SearchForm extends Component<SearchFormProps, SearchFormState> {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className={styles.form} onSubmit={this.handleSubmit}>
         <input
+          className={styles.input}
           type="text"
           name={SEARCH_QUERY}
           value={this.state.searchQuery}
           onChange={this.handleSearchQueryChange}
         />
-        <button type="submit">Search</button>
+
+        <button className={styles.button} type="submit">
+          Search
+        </button>
       </form>
     );
   }

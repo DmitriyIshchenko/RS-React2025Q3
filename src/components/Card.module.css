@@ -1,0 +1,8 @@
+.card {
+  display: flex;
+  gap: 2rem;
+}
+
+.info {
+  margin-left: auto;
+}

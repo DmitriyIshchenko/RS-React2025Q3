@@ -3,6 +3,8 @@ import Card from '../../components/Card';
 import type { AppState } from '../../App';
 import Spinner from '../../components/Spinner';
 
+import styles from './SearchResults.module.css';
+
 type SearchResultsProps = AppState;
 
 export class SearchResults extends Component<SearchResultsProps> {
@@ -16,11 +18,15 @@ export class SearchResults extends Component<SearchResultsProps> {
     if (!results.length) return <div>No recipes found</div>;
 
     return (
-      <ul>
-        {results.map((item) => (
-          <Card key={item.id} name={item.name} cuisine={item.cuisine} />
-        ))}
-      </ul>
+      <div>
+        <h3 className={styles.title}>Results</h3>
+
+        <ul>
+          {results.map((item) => (
+            <Card key={item.id} name={item.name} cuisine={item.cuisine} />
+          ))}
+        </ul>
+      </div>
     );
   }
 }
