@@ -1,15 +1,23 @@
 import { Component } from 'react';
 import { SearchForm } from './features/search/SearchForm';
 import { getSearchResults } from './api/getSearchResults';
+import { SearchResults } from './features/search/SearchResults';
+import type { Recipe } from './lib/types';
 
-interface AppState {
-  searchResults: unknown;
+export interface AppState {
+  searchResults: Recipe[] | null;
   isLoading: boolean;
   error: string | null;
 }
 
 class App extends Component<unknown, AppState> {
-  handleSearchSubmit = async (searchQuery: string) => {
+  state: AppState = {
+    searchResults: null,
+    isLoading: false,
+    error: null,
+  };
+
+  handleSearch = async (searchQuery: string) => {
     try {
       this.setState({ isLoading: true, error: null });
 
@@ -26,7 +34,12 @@ class App extends Component<unknown, AppState> {
   render() {
     return (
       <>
-        <SearchForm onSubmit={this.handleSearchSubmit} />
+        <SearchForm onSearch={this.handleSearch} />
+        <SearchResults
+          searchResults={this.state.searchResults}
+          isLoading={this.state.isLoading}
+          error={this.state.error}
+        />
       </>
     );
   }

@@ -2,7 +2,7 @@ import { Component, type FormEvent } from 'react';
 import { SEARCH_QUERY } from '../../lib/constants';
 
 interface SearchFormProps {
-  onSubmit: (searchQuery: string) => void;
+  onSearch: (searchQuery: string) => void;
 }
 
 interface SearchFormState {
@@ -13,6 +13,10 @@ export class SearchForm extends Component<SearchFormProps, SearchFormState> {
   state = {
     searchQuery: localStorage.getItem(SEARCH_QUERY) ?? '',
   };
+
+  componentDidMount(): void {
+    this.props.onSearch(this.state.searchQuery);
+  }
 
   handleSearchQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -26,7 +30,7 @@ export class SearchForm extends Component<SearchFormProps, SearchFormState> {
   handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.props.onSubmit(this.state.searchQuery);
+    this.props.onSearch(this.state.searchQuery);
   };
 
   render() {
