@@ -1,11 +1,11 @@
 import { Component } from 'react';
 import { SearchForm } from './features/search/SearchForm';
 import { getSearchResults } from './api/getSearchResults';
-import { SearchResults } from './features/search/SearchResults';
 import type { Character } from './lib/types';
 
 import styles from './App.module.css';
 import Header from './components/Header';
+import { SearchResultsList } from './features/search/SearchResultsList';
 
 export interface AppState {
   searchResults: Character[];
@@ -48,7 +48,7 @@ class App extends Component<unknown, AppState> {
       <main className={styles.main}>
         <Header />
         <SearchForm onSearch={this.handleSearch} />
-        <SearchResults data={this.state} />
+        <SearchResultsList data={this.state} />
         <button onClick={() => this.setState({ isErrorBoundaryFaked: true })}>
           Trigger error boundary
         </button>

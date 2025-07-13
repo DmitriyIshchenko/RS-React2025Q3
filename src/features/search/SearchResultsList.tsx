@@ -3,9 +3,9 @@ import Card from '../../components/Card';
 import type { AppState } from '../../App';
 import Spinner from '../../components/Spinner';
 
-import styles from './SearchResults.module.css';
+import styles from './SearchResultsList.module.css';
 
-export class SearchResults extends Component<{ data: AppState }> {
+export class SearchResultsList extends Component<{ data: AppState }> {
   render(): ReactNode {
     const { searchResults, isLoading, error } = this.props.data;
 
@@ -13,8 +13,15 @@ export class SearchResults extends Component<{ data: AppState }> {
     if (error) return <div className="error">{error}</div>;
 
     return (
-      <div>
-        <h3 className={styles.title}>Results</h3>
+      <section>
+        <header>
+          <h3 className={styles.title}>Results</h3>
+
+          <div className={styles.legend}>
+            <p>Name</p>
+            <p>Gender</p>
+          </div>
+        </header>
 
         <ul>
           {searchResults.map((character) => (
@@ -23,7 +30,7 @@ export class SearchResults extends Component<{ data: AppState }> {
         </ul>
 
         {!searchResults.length && <div>No characters found!</div>}
-      </div>
+      </section>
     );
   }
 }
