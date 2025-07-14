@@ -19,13 +19,13 @@ export class SearchResultsList extends Component<{ data: AppState }> {
 
           <div className={styles.legend}>
             <p>Name</p>
-            <p>Gender</p>
+            <p>Status</p>
           </div>
         </header>
 
         <ul>
           {searchResults.map((character) => (
-            <Card key={character.name} character={character} />
+            <Card key={character.id} character={character} />
           ))}
         </ul>
 

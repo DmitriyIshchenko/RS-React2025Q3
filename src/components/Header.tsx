@@ -6,7 +6,7 @@ export default class Header extends Component {
   render() {
     return (
       <header className={styles.header}>
-        <h1>Find a Star Wars character</h1>
+        <h1>Find a Rick and Morty character</h1>
       </header>
     );
   }
