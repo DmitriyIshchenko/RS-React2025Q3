@@ -7,7 +7,7 @@ export async function getSearchResults(searchQuery: string) {
 
   if (req.status === 404) return [];
 
-  // if (!req.ok) throw new Error(`HTTP Error! (${req.status})`);
+  if (!req.ok) throw new Error(`HTTP Error! (${req.status})`);
 
   const data = await req.json();
 
