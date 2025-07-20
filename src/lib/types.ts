@@ -20,3 +20,18 @@ export interface CharacterLocation {
   name: string;
   url: string;
 }
+
+export interface ErrorResponse {
+  error: string;
+}
+
+export interface SuccessResponse {
+  info: {
+    count: number;
+    pages: number;
+    next: string | null;
+    prev: string | null;
+  };
+  results: Character[];
+}
+export type ApiResponse = SuccessResponse | ErrorResponse;
