@@ -26,7 +26,7 @@ export class SearchForm extends Component<SearchFormProps, SearchFormState> {
       searchQuery: this.state.searchQuery.trim(),
     });
 
-    localStorage.setItem(SEARCH_QUERY, this.state.searchQuery);
+    localStorage.setItem(SEARCH_QUERY, this.state.searchQuery.trim());
     this.props.onSearch(this.state.searchQuery);
   };
 
