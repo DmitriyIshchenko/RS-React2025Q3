@@ -8,7 +8,7 @@ describe('ErrorBoundary', () => {
   };
 
   beforeEach(() => {
-    vi.spyOn(console, 'error');
+    vi.spyOn(console, 'error').mockImplementation(() => {});
   });
 
   afterEach(() => {
