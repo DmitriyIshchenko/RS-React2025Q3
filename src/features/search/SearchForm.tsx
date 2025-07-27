@@ -1,50 +1,46 @@
-import { Component, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { SEARCH_QUERY } from '../../lib/constants';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 import styles from './SearchForm.module.css';
 
 interface SearchFormProps {
   onSearch: (searchQuery: string) => void;
 }
 
-interface SearchFormState {
-  searchQuery: string;
-}
+export function SearchForm({ onSearch }: SearchFormProps) {
+  const [searchQuery, setSearchQuery] = useLocalStorage(SEARCH_QUERY, '');
+  const [userInput, setUserInput] = useState(searchQuery);
 
-export class SearchForm extends Component<SearchFormProps, SearchFormState> {
-  state = {
-    searchQuery: localStorage.getItem(SEARCH_QUERY) ?? '',
-  };
+  const isInitialRender = useRef(true);
 
-  componentDidMount(): void {
-    this.props.onSearch(this.state.searchQuery);
-  }
+  useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      onSearch(searchQuery);
+    }
+  }, [searchQuery, onSearch]);
 
-  handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    this.setState({
-      searchQuery: this.state.searchQuery.trim(),
-    });
-
-    localStorage.setItem(SEARCH_QUERY, this.state.searchQuery.trim());
-    this.props.onSearch(this.state.searchQuery);
+    const formattedUserInput = userInput.trim();
+    setSearchQuery(formattedUserInput);
+    onSearch(formattedUserInput);
   };
 
-  render() {
-    return (
-      <form className={styles.form} onSubmit={this.handleSubmit}>
-        <input
-          className={styles.input}
-          type="text"
-          name={SEARCH_QUERY}
-          value={this.state.searchQuery}
-          onChange={(e) => this.setState({ searchQuery: e.target.value })}
-        />
+  return (
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <input
+        className={styles.input}
+        type="text"
+        name={SEARCH_QUERY}
+        value={userInput}
+        onChange={(e) => setUserInput(e.target.value)}
+      />
 
-        <button className={styles.button} type="submit">
-          Search
-        </button>
-      </form>
-    );
-  }
+      <button className={styles.button} type="submit">
+        Search
+      </button>
+    </form>
+  );
 }
