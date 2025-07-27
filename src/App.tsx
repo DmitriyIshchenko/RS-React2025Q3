@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { SearchForm } from './features/search/SearchForm';
 import { getSearchResults } from './api/getSearchResults';
 import type { Character } from './lib/types';
@@ -14,47 +14,53 @@ export interface AppState {
   isErrorBoundaryFaked: boolean;
 }
 
-class App extends Component<unknown, AppState> {
-  state: AppState = {
+function App() {
+  const [state, setState] = useState<AppState>({
     searchResults: [],
     isLoading: false,
     error: null,
     isErrorBoundaryFaked: false,
-  };
+  });
 
-  handleSearch = async (searchQuery: string) => {
+  const handleSearch = async (searchQuery: string) => {
     try {
-      this.setState({ isLoading: true, error: null });
+      setState((prevState) => ({ ...prevState, isLoading: true, error: null }));
 
       const data = await getSearchResults(searchQuery);
 
-      this.setState({ searchResults: data });
+      setState((prevState) => ({ ...prevState, searchResults: data }));
     } catch (error) {
       if (error instanceof Error) {
-        this.setState({
+        setState((prevState) => ({
+          ...prevState,
           error: `Something went wrong: ${error.message}. Please try again!`,
-        });
+        }));
       }
     } finally {
-      this.setState({ isLoading: false });
+      setState((prevState) => ({ ...prevState, isLoading: false }));
     }
   };
 
-  render() {
-    if (this.state.isErrorBoundaryFaked)
-      throw new Error('Fake error boundary has been triggered!');
+  if (state.isErrorBoundaryFaked)
+    throw new Error('Fake error boundary has been triggered!');
 
-    return (
-      <main className={styles.main}>
-        <Header />
-        <SearchForm onSearch={this.handleSearch} />
-        <SearchResultsList data={this.state} />
-        <button onClick={() => this.setState({ isErrorBoundaryFaked: true })}>
-          Trigger error boundary
-        </button>
-      </main>
-    );
-  }
+  return (
+    <main className={styles.main}>
+      <Header />
+      <SearchForm onSearch={handleSearch} />
+      <SearchResultsList data={state} />
+      <button
+        onClick={() =>
+          setState((prevState) => ({
+            ...prevState,
+            isErrorBoundaryFaked: true,
+          }))
+        }
+      >
+        Trigger error boundary
+      </button>
+    </main>
+  );
 }
 
 export default App;
