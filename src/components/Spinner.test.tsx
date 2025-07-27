@@ -15,7 +15,7 @@ describe('Spinner Component', () => {
         />
       );
 
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByRole('img')).toBeVisible();
     });
   });
 });
