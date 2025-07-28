@@ -8,14 +8,12 @@ interface StorageMock {
 export const localStorageMock: StorageMock = {
   store: {},
 
-  getItem(key) {
-    return this.store[key] || null;
+  getItem(key: string) {
+    return this.store[key] ?? null;
   },
-
-  setItem(key, value) {
-    this.store[key] = value.toString();
+  setItem(key: string, value: string) {
+    this.store[key] = value;
   },
-
   clear() {
     this.store = {};
   },
